@@ -1,0 +1,250 @@
+using ClickHouse.Ado;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CHDataStreaming
+{
+    class DBConnention
+    {
+        public static ClickHouseConnection con = null;
+        public static ClickHouseDataReader reader = null;
+        public static ClickHouseConnectionSettings c = null;
+        public static String str = "Host=127.0.0.1;Port=9000;User=default;Password=;Database=default;Compress=True;CheckCompressedHash=False;SocketTimeout=60000000;Compressor=lz4";
+
+        private static Random rand = new Random();
+        private static int min = 500000000;
+        private static int max = 980000000;
+        public static int numbers;
+        public static List<int> cont = new List<int>();
+
+
+        public static void CHConnection(Action myMethodName)
+        {
+
+            try
+            {
+                con = new ClickHouseConnection(str);
+                con.Open();
+
+                myMethodName();
+            }
+            catch (ClickHouseException err)
+            {
+                Console.WriteLine(err);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public static void CreateTables()
+        {
+            List<String> commands = new List<string>();
+            commands.Add("DROP TABLE IF EXISTS default.phone_numbers;");
+            commands.Add("DROP TABLE IF EXISTS default.calls;");
+            commands.Add("DROP TABLE IF EXISTS default.contacts;");
+            commands.Add("CREATE TABLE phone_numbers (" +
+                "id Int32, " +
+                "ph_num Int32, " +
+                "mon Int32, " +
+                "tue Int32, " +
+                "wed Int32, " +
+                "thu Int32, " +
+                "fri Int32, " +
+                "sat Int32, " +
+                "sun Int32, " +
+                "typ Int32, " +
+                "weekend Int32, " +
+                "week Int32" +
+                ") ENGINE = MergeTree () " +
+                "ORDER BY (id)");
+            commands.Add("CREATE TABLE calls (" +
+                "phone_number Int32, " +
+                "contact_number Int32, " +
+                "start DateTime, " +
+                "end DateTime, " +
+                "call_type String" +
+                ") ENGINE = MergeTree () " +
+                "ORDER BY (phone_number)");
+            commands.Add("CREATE TABLE contacts (" +
+                "id_ph_nr Int32, " +
+                "contact_number Int32," +
+                "average_time Int32 " +
+                ") ENGINE = MergeTree () " +
+                "ORDER BY (id_ph_nr)");
+
+            for (int i = 0; i < commands.Count; i++)
+            {
+
+                ClickHouseCommand comm = con.CreateCommand(commands[i]);
+                comm.ExecuteNonQuery();
+            }
+
+            FillDB();
+            Console.WriteLine("Streaming will start automatically.");
+            BulkToCH();
+            
+        }
+        public static void FillDB()
+        {
+            Console.Write("Enter how many numbers you want to use: ");
+            int limit = 250000;
+            string readL = Console.ReadLine();
+            if (!Int32.TryParse(readL, out numbers))
+            {
+                Console.WriteLine("Incorrect input.");
+                FillDB();
+                //no, not able to parse, repeat, throw exception, use fallback value?
+            } else if (numbers > limit)
+            {
+                Console.WriteLine($"Too much nubers, limit is { limit }.");
+                FillDB();
+            }
+            TimeOfDay.nOfCalls = numbers;
+            
+        }
+
+        private static List<object> ReadModels()
+        {
+            List<object> result = new List<object>();
+            const Int32 BufferSize = 128;
+            string filePath;
+            filePath = "Models.txt";
+
+            using (var fileStream = File.OpenRead(filePath))
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+            {
+                String line;
+                while ((line = streamReader.ReadLine()) != null)
+                {
+                    char[] spearator = { ',' };
+                    string[] strlist = line.Split(spearator, StringSplitOptions.None);
+
+                    object[] x = new object[11];
+                    for (int i = 1; i < 12; i++)
+                    {
+                        x[i-1] = strlist[i];
+                        int o = 0;
+                        if (int.TryParse(strlist[i], out o))
+                        {
+                            x[i-1] = o;
+                        }
+
+                    }
+                    result.Add(x);
+                }
+            }
+            return result;
+        }
+
+        public static void BulkToCH()
+        {
+            int k = numbers;
+            int n = 0;
+            
+            BulkNumbersToCH(numbers);
+
+            int x = 5000;
+            Console.Write("Creating DB...                                   ");
+            using (var progress = new ProgressBar())
+            {
+                for (int i = numbers; i > 0; i = i - x)
+                {
+                    progress.Report((double)(k - numbers) / k);
+                    if (numbers <= x)
+                    {
+                        x = numbers;
+                        BulkContactsToCH(x, n);
+                        numbers = 0;
+                    }
+                    else
+                    {
+                        BulkContactsToCH(x, n);
+                        n = n + x;
+                        numbers = numbers - x;
+                        k++;
+
+                    }
+                }
+            }
+            Console.WriteLine("Done.");
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        public static void BulkNumbersToCH(int num)
+        {
+            ClickHouseCommand comm = con.CreateCommand();
+
+            
+            List<object> models = ReadModels();
+            List<object> numbers = new List<object>();
+
+            for (int i = 0; i < num; i++)
+            {
+                var li = (object[])models[rand.Next(1, models.Count)];
+                object[] clone = (object[])li.Clone();
+                for (int k = 0; k < li.Length - 2; k++)
+                {
+                    int x = (int)clone[k];
+                    if(k != 9 && x != 100)
+                        x = rand.Next((x * 80 / 100), (x * 120 / 100));
+                    if (x >= 100 && k != 0)
+                        x = 100;
+                    else if (x < 0 && k != 0)
+                        x = 0;
+                    clone[k] = x;
+                }
+
+                cont.Add((int)clone[0]);
+                object obj = new object[] { i, rand.Next(min, max), 
+                    clone[1], clone[2], clone[3], clone[4], clone[5], clone[6], clone[7], clone[8], clone[9], clone[10]};
+                numbers.Add(obj);
+            }
+            comm.CommandText = "INSERT INTO phone_numbers ( id , ph_num , mon , tue , wed , thu , fri , sat , sun , typ, week , weekend ) VALUES @bulk";
+            comm.Parameters.Add(new ClickHouseParameter
+            {
+                ParameterName = "bulk",
+                Value = numbers
+            });
+            comm.ExecuteNonQuery();
+        }
+
+        public static void BulkContactsToCH(int num, int n)
+        {
+            ClickHouseCommand comm = con.CreateCommand();
+
+            List<object> contacts = new List<object>();
+            for(int j = n; j < num + n; j++)
+            {
+                int numberOfContacts = cont[j];
+
+                for (int i = 0; i < numberOfContacts; i++)
+                {
+                    object[] obj = new object[] { j, rand.Next(min, max), rand.Next(60000, 1800000) };
+                    contacts.Add(obj);
+                }
+            }
+            
+            comm.CommandText = "INSERT INTO contacts (id_ph_nr, contact_number, average_time) values @bulk";
+            comm.Parameters.Add(new ClickHouseParameter
+            {
+                ParameterName = "bulk",
+                Value = contacts
+            });
+            comm.ExecuteNonQuery();
+        }
+    }
+}

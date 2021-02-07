@@ -1,0 +1,199 @@
+model   , contacts, monday, tuesday, wednesday, thursday, friday, saturday, sunday, week, weekend
+student , 25      , 10    , 6      , 12       , 36      , 74    , 86      , 48    , 234 , 341
+call_cen, 25000   , 80    , 76     , 76       , 80      , 70    , 0       , 0     , 23  , 0
+
+
+
+
+
+0        6       12       18       24
+|________|________|________|________|
+    1        2        3        4
+
+0               12               24
+|________________|________________|
+        12              34
+
+0        6               18       24
+|________|________________|________|
+    1            23           4
+
+
+12      18                6       12
+|________|________________|________|
+    3            41           2
+
+0        6                       24
+|________|________________________|
+    1               234
+
+0                       18       24
+|________________________|________|
+            123              4
+
+12                       6       12
+|________________________|________|
+            341              2
+
+18                       12       18
+|________________________|________|
+            412              3
+
+0                               24
+|________________________________|
+               1234
+
+INSERT INTO test_ph ( id, ph_num , mon , tue , wed , thu , fir , sat , sun , week , weekend ) VALUES (2, 786462229, 20, 30, 12 ,56, 24, 56, 48, 234, 341)
+
+
+ CREATE TABLE default.test_ph (
+  `id` Int32,
+  `ph_num` Int32,
+  `mon` Int32,
+  `tue` Int32,
+  `wed` Int32,
+  `thu` Int32,
+  `fir` Int32,
+  `sat` Int32,
+  `sun` Int32,
+  `week` Int32,
+  `weekend` Int32
+) ENGINE = Log
+
+
+ CREATE TABLE default.test_ph (id Int32, ph_num Int32, mon Int32, tue Int32, wed Int32, thu Int32, fri Int32, sat Int32, sun Int32, week Int32, weekend Int32) ENGINE = Log;
+ 
+
+ commands.Add("CREATE TABLE phone_numbers ("
+                    + "id Int32,            "
+                    + "phone_number Int32   "
+                    + ") ENGINE = Log;      ");
+
+
+
+SELECT DISTINCT ph_num, contact_number, weekend 
+FROM contacts 
+INNER JOIN phone_numbers 
+ON phone_numbers.id = contacts.id_ph_nr 
+WHERE weekend = 4 OR weekend = 34 OR weekend = 412 OR weekend = 1234 OR weekend = 41 OR weekend = 341
+GROUP BY ph_num, contact_number, weekend 
+ORDER BY RAND()
+LIMIT 100
+
+
+SELECT DISTINCT ph_num, contact_number, weekend FROM contacts INNER JOIN phone_numbers ON phone_numbers.id = contacts.id_ph_nr WHERE weekend = 4 OR weekend = 34 OR weekend = 412 OR weekend = 1234 OR weekend = 41 OR weekend = 341 GROUP BY ph_num, contact_number, weekend ORDER BY RAND()LIMIT 100
+
+
+SELECT DISTINCT ph_num, contact_number, average_time, wed, week 
+FROM contacts 
+INNER JOIN phone_numbers 
+ON phone_numbers.id = contacts.id_ph_nr 
+WHERE week = 4 OR week = 41 OR week = 412 OR week = 1234 OR week = 34 OR week = 234 OR week = 341 
+GROUP BY ph_num, contact_number, week, average_time, wed
+ORDER BY RAND()
+LIMIT 100
+
+
+model,contacts,monday,tuesday,wednesday,thursday,friday,saturday,sunday,type,week,weekend
+student,25,10,6,12,36,74,86,48,60,234,341
+call_cen,800,80,76,76,80,70,0,0,100,23,0
+dziadzia,50,20,20,20,20,20,30,40,80,23,23
+nightmare,10,10,10,4,10,30,33,7,60,1,41
+notsleepy,26,50,66,33,58,50,40,20,50,41,4
+
+
+
+
+ DROP TABLE IF EXISTS default.sdf SELECT DISTINCT ph_num, contact_number, average_time, wed, week 
+FROM contacts 
+INNER JOIN phone_numbers 
+ON phone_numbers.id = contacts.id_ph_nr 
+WHERE week = 4 OR week = 41 OR week = 412 OR week = 1234 OR week = 34 OR week = 234 OR week = 341 
+GROUP BY ph_num, contact_number, week, average_time, wed 
+ORDER BY RAND()
+LIMIT 100
+
+ DROP TABLE IF EXISTS default.test_ph 
+
+select count(*) from contacts
+
+select phone_number, count(phone_number) as c from calls GROUP BY phone_number ORDER BY c DESC
+
+select * from calls where phone_number = 933323623
+
+SELECT DISTINCT ph_num, contact_number, average_time, typ, mon, week FROM contacts INNER JOIN phone_numbers ON phone_numbers.id = contacts.id_ph_nr WHERE week = 3 OR week = 34 OR week = 341 OR week = 1234 OR week = 23 OR week = 234 OR week = 123 GROUP BY ph_num, contact_number, average_time, typ, mon, week ORDER BY RAND() LIMIT 4
+
+
+ DROP TABLE IF EXISTS default.phone_numbers 
+
+ CREATE TABLE default.phone_numbers (
+  `id` Int32,
+  `ph_num` Int32,
+  `mon` Int32,
+  `tue` Int32,
+  `wed` Int32,
+  `thu` Int32,
+  `fri` Int32,
+  `sat` Int32,
+  `sun` Int32,
+  `typ` Int32,
+  `weekend` Int32,
+  `week` Int32
+) ENGINE = MergeTree ()
+ORDER BY (id)
+ 
+ 
+ DROP TABLE IF EXISTS default.autos 
+ 
+SELECT TOP price FROM autos LIMIT 100
+
+SELECT TOP 10 * FROM autos WHERE price > 10000
+
+SELECT brand, COUNT(brand), model FROM autos GROUP BY brand, model HAVING COUNT(brand) > 1000
+
+
+
+rysowanie wykresów 
+
+SELECT  model , monday , tuesday , wednesday , thursday , friday , saturday , sunday 
+FROM models
+DRAW_CHART
+{
+    yAxis:[model]
+    xAxis:[monday , tuesday , wednesday , thursday , friday , saturday , sunday]
+}
+
+SELECT start , COUNT(*) from default.calls
+GROUP BY start
+ORDER BY start
+LIMIT 10
+DRAW_CHART
+{
+    
+}
+SELECT end , COUNT(*) from default.calls
+GROUP BY end
+ORDER BY end
+LIMIT 100
+DRAW_CHART
+{
+    
+}
+
+SELECT COUNT(id) , week, weekend from default.phone_numbers
+GROUP BY week, weekend
+ORDER BY week
+DRAW_CHART
+{
+    
+}
+
+SELECT COUNT(model) , week, weekend 
+from default.models
+GROUP BY week, weekend
+ORDER BY week
+LIMIT 10
+DRAW_CHART
+{
+    
+}

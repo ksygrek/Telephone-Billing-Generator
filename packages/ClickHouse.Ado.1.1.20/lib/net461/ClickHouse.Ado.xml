@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ClickHouse.Ado</name>
+    </assembly>
+    <members>
+        <member name="T:ClickHouse.Ado.IBulkInsertEnumerable">
+            <summary>
+            Enumeration helped for bulk inserts.
+            </summary>
+            <remarks>Using <see cref="T:ClickHouse.Ado.IBulkInsertEnumerable"/> allows you to avoid mass collection copying on inserts.</remarks>
+        </member>
+        <member name="M:ClickHouse.Ado.IBulkInsertEnumerable.GetColumnData(System.Int32,System.String,System.String)">
+            <summary>
+            Get enumerable data by column.
+            </summary>
+            <param name="colNumber">Number of column.</param>
+            <param name="columnName">Name of column.</param>
+            <param name="schemaType">Column type as fetched from clickhouse command schema.</param>
+            <returns>List of values for specified column.</returns>
+        </member>
+        <member name="T:ClickHouse.Ado.Impl.ColumnTypes.GuidColumnType">
+            <summary> UUID column type </summary>
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ClientMessageType.Query">
+            Имя, версия, ревизия, БД по-умолчанию.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ClientMessageType.Data">
+            Идентификатор запроса, настройки на отдельный запрос,
+            информация, до какой стадии исполнять запрос,
+            использовать ли сжатие, текст запроса (без данных для INSERT-а).
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ClientMessageType.Cancel">
+            Блок данных со сжатием или без.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ClientMessageType.Ping">
+            Отменить выполнение запроса.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.CompressionMethod.Zstd">
+            Формат такой же, как у LZ4. Разница только при сжатии.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.DistributedProductMode.Local">
+            Запретить
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.DistributedProductMode.Global">
+            Конвертировать в локальный запрос
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.DistributedProductMode.Allow">
+            Конвертировать в глобальный запрос
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.GlobalSubqueriesMethod.Pull">
+            Отправлять данные подзапроса на все удалённые серверы.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.LoadBalancing.Random">
+            среди реплик с минимальным количеством ошибок выбирается случайная
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.LoadBalancing.NearestHostname">
+            среди реплик с минимальным количеством ошибок выбирается реплика
+            с минимальным количеством отличающихся символов в имени реплики и имени локального хоста
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.LoadBalancing.InOrder">
+            реплики перебираются строго по порядку; количество ошибок не имеет значение
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.QueryProcessingStage.WithMergeableState">
+            Только прочитать/прочитаны указанные в запросе столбцы.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.QueryProcessingStage.Complete">
+            До стадии, когда результаты обработки на разных серверах можно объединить.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.Data">
+            Имя, версия, ревизия.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.Exception">
+            Блок данных со сжатием или без.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.Progress">
+            Исключение во время обработки запроса.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.Pong">
+            Прогресс выполнения запроса: строк считано, байт считано.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.EndOfStream">
+            Ответ на Ping.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.ProfileInfo">
+            Все пакеты были переданы.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.Totals">
+            Пакет с профайлинговой информацией.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.ServerMessageType.Extremes">
+            Блок данных с тотальными значениями, со сжатием или без.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.TotalsMode.AfterHavingInclusive">
+            Считать HAVING по всем прочитанным строкам;
+             включая не попавшие в max_rows_to_group_by
+             и не прошедшие HAVING после группировки.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.TotalsMode.AfterHavingExclusive">
+            Считать по всем строкам, кроме не прошедших HAVING;
+             то есть, включать в TOTALS все строки, не прошедшие max_rows_to_group_by.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.Data.TotalsMode.AfterHavingAuto">
+            Включать только строки, прошедшие и max_rows_to_group_by, и HAVING.
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.ProtocolFormatter._baseStream">
+            <summary>
+            Underlaying stream, usually NetworkStream.
+            </summary>
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.ProtocolFormatter._compStream">
+            <summary>
+            Compressed stream, !=null indicated that compression/decompression has beed started.
+            </summary>
+        </member>
+        <member name="F:ClickHouse.Ado.Impl.ProtocolFormatter._ioStream">
+            <summary>
+            Stream to write to/read from, either _baseStream or _compStream.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,6 @@
+﻿clickhouse-bulk:
+  image: clickhouse-bulk
+  ports:
+   - "8124"
+  environment:
+   - CLICKHOUSE_SERVERS=http://1.2.3.4:8123

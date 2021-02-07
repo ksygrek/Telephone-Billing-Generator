@@ -1,0 +1,25 @@
+c:\users\ksygrek\documents\visual studio 2015\Projects\CHDataStreaming\CHDataStreaming\bin\Debug\CHDataStreaming.exe.config
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.csprojAssemblyReference.cache
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\CHDataStreaming.exe.config
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\CHDataStreaming.exe
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\CHDataStreaming.pdb
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\ClickHouse.Ado.dll
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\LZ4.dll
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\ClickHouse.Ado.xml
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.csproj.CopyComplete
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.exe
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.pdb
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\Models.txt
+C:\Users\ksygrek\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\docker-compose.yml
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\Models.txt
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\docker-compose.yml
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\CHDataStreaming.exe.config
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\CHDataStreaming.exe
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\CHDataStreaming.pdb
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\ClickHouse.Ado.dll
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\LZ4.dll
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\bin\Debug\ClickHouse.Ado.xml
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.csprojAssemblyReference.cache
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.csproj.CopyComplete
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.exe
+C:\Users\kjbie\source\repos\CHDataStreaming\CHDataStreaming\obj\Debug\CHDataStreaming.pdb

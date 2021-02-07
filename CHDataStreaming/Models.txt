@@ -1,0 +1,9 @@
+﻿model,contacts,monday,tuesday,wednesday,thursday,friday,saturday,sunday,typ,week,weekend
+call_center,0,100,100,100,100,100,0,0,100,23,0
+lonely_boy,5,0,0,0,0,0,10,20,50,34,34
+student,25,10,6,12,36,74,86,48,60,234,341
+old_man,50,20,20,20,20,20,30,40,80,23,23
+normal_user,25,20,20,20,20,20,30,40,80,234,234
+night_owl,10,10,10,4,10,30,33,7,60,1,41
+sleepless,26,50,66,33,58,50,40,20,50,41,4
+trader,50,60,60,60,60,60,0,0,70,23,0
